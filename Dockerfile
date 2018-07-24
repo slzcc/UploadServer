@@ -4,4 +4,4 @@ WORKDIR /UploadInterface
 RUN pip install --upgrade pip && pip install -r package.txt
 
 EXPOSE 8878
-CMD python3 mamane.py runserver 0.0.0.0:8878
+CMD python3 manage.py runserver 0.0.0.0:8878
