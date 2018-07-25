@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import json
-import base64
-import hashlib
+import time
+import shutil
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
