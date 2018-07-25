@@ -26,7 +26,7 @@ def upload(request):
     time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time()))
 
     # 如果时间目录，不存在则创建目录
-    if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, time_path))
+    if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
 
     # 定义新的文件路径
     new_file_name = file_md5 + "_" + file_name
