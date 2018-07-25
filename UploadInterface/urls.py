@@ -13,10 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from Upload.views import upload
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    path('upload/', upload, name="service-upload-files"),
+    re_path('^upload$', upload, name="service-upload-files"),
 ]
