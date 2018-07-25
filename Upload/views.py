@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 UPLOAD_FILE_PATH = os.getenv('UPLOAD_FILE_PATH')
 NGINX_MIRROR_URL = os.getenv('NGINX_MIRROR_URL')
 NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')
+REMOVE_SOURCE_FILE_SETUP = os.getenv('REMOVE_SOURCE_FILE_SETUP')
 
 @csrf_exempt
 def upload(request):
@@ -38,6 +39,10 @@ def upload(request):
 
     # 指定文件可被访问的 Url
     account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
+
+    # 是否删除 Nginx 源文件
+    if REMOVE_SOURCE_FILE_SETUP:
+        os.remove(file_path)
 
     ret = {
         'name': new_file_name,
