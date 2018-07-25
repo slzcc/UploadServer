@@ -1,4 +1,3 @@
-from django.shortcuts import render
 # -*- coding: utf-8 -*-
 import os
 import json
@@ -6,57 +5,47 @@ import base64
 import hashlib
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-UPLOAD_FILE_PATH = '/storage/'
- 
-# '''获取文件的大小,结果保留两位小数，单位为MB'''
-def get_FileSize(filePath):
-    fsize = os.path.getsize(filePath)
-    fsize = fsize/float(1024*1024)
-    return round(fsize, 2)
- 
-# '''获取文件的 MD5 值'''
-def get_FileMD5(filePath):
-    MD5_Object = hashlib.md5()
-    maxbuf = 8192
-    f = open(filePath,'rb')
-    while True:
-        buf = f.read(maxbuf)
-        if not buf:
-            break
-        MD5_Object.update(buf)
-    f.close()
-    hash = MD5_Object.hexdigest()
-    return  hash
- 
-# '''获取文件的 后缀'''
-def get_FileSuffix(filePath):
-    suffix = os.path.splitext(os.path.basename(filePath))[1].strip(".")
-    return suffix
- 
+
+# Global Environment Variable
+UPLOAD_FILE_PATH = os.getenv('UPLOAD_FILE_PATH')
+NGINX_MIRROR_URL = os.getenv('NGINX_MIRROR_URL')
+NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')
+
 @csrf_exempt
 def upload(request):
     request_params = request.POST
     file_name = request_params['file_name']
     file_path = request_params['file_path']
     file_md5 = request_params['file_md5']
-    file_base64_content = request_params['file_content']
+    file_size = request_params['file_size']
+    file_content_type = request_params['file_content_type']
     ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD') or request.META.get('REMOTE_ADDR')
-    target_file_path = os.path.join(UPLOAD_FILE_PATH, file_path, file_name)
- 
-    # 如果目录不存在则创建目录
-    if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, file_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, file_path))
- 
-    # 写入文件
-    with open(target_file_path, 'wb') as f:
-        f.write(base64.b64decode(file_base64_content))
- 
+
+    # 设置当前需要存储，以时间戳为名称的目录
+    time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time()))
+
+    # 如果时间目录，不存在则创建目录
+    if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, time_path))
+
+    # 定义新的文件路径
+    new_file_name = file_md5 + "_" + file_name
+    new_file_path = os.path.join(UPLOAD_FILE_PATH, time_path, new_file_name)
+    old_file_name = file_name
+    old_file_path = os.path.join(file_path)
+
+    # 把 Nginx 存储的文件 Copy 到指定目录内，例：time_path/MD5_file_path
+    shutil.copyfile(old_file_path, new_file_path)
+
+    # 指定文件可被访问的 Url
+    account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
+
     ret = {
-        'name': file_name,
-        'path': file_path,
-        # 'md5': get_FileMD5(target_file_path),
+        'name': new_file_name,
+        'path': new_file_path,
         'md5': file_md5,
-        'size': get_FileSize(target_file_path),
+        'size': file_size,
         'ip': ip_address,
-        'content_type': get_FileSuffix(target_file_path),
+        'content_type': file_content_type,
+        'account_url': account_url,
     }
     return JsonResponse(ret)
