@@ -53,6 +53,8 @@ def upload(request):
             'ip': ip_address,
             'content_type': file_content_type,
             'account_url': account_url,
+            'status': "success",
+            'status_code': "200",
         }
         return JsonResponse(ret)
     except:
