@@ -51,11 +51,11 @@ def upload(request):
         shutil.copyfile(old_file_path, new_file_path)
 
         # 指定文件可被访问的 Url
+        account_url = os.path.join(new_file_path, new_file_name)
         if not custom_path:
             account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
         else:
-            account_url = os.path.join(NGINX_MIRROR_URL, "/".join(custom_path, time_path, new_file_name)
-
+            account_url = os.path.join(NGINX_MIRROR_URL, "/".join(custom_path), time_path, new_file_name)
 
 
         # 是否删除 Nginx 源文件
