@@ -36,12 +36,14 @@ def upload(request):
         # 判断存储目录是否存在，如果不存在则创建目录
         if custom_path:
             if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
+            absolute_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)
         else:
             if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path))
+            absolute_path = os.path.join(UPLOAD_FILE_PATH, custom_path, time_path)
 
         # 定义新的文件路径
         new_file_name = file_md5 + "_" + file_name
-        new_file_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name) if custom_path else os.path.join(UPLOAD_FILE_PATH, custom_path, time_path, new_file_name)
+        new_file_path = os.path.join(absolute_path, new_file_name)
         old_file_name = file_name
         old_file_path = os.path.join(file_path)
 
