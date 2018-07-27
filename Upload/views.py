@@ -22,7 +22,7 @@ USE_TIEM_SUB_DIRECTORY = os.getenv('USE_TIEM_SUB_DIRECTORY')
 @csrf_exempt
 def upload(request):
     try:
- file_name = request.POST.getlist('file_name', "")[0]
+        file_name = request.POST.getlist('file_name', "")[0]
         file_path = request.POST.getlist('file_path', "")[0]
         file_md5 = request.POST.getlist('file_md5', "")[0]
         file_size = request.POST.getlist('file_size', "")[0]
