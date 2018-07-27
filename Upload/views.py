@@ -22,12 +22,12 @@ USE_TIEM_SUB_DIRECTORY = os.getenv('USE_TIEM_SUB_DIRECTORY')
 @csrf_exempt
 def upload(request):
     try:
-        file_name = request.POST.get('file_name', "")
-        file_path = request.POST.get('file_path', "")
-        file_md5 = request.POST.get('file_md5', "")
-        file_size = request.POST.get('file_size', "")
-        file_content_type = request.POST.get('file_content_type', "")
-        custom_path = request.POST.get('custom_path', "")
+ file_name = request.POST.getlist('file_name', "")[0]
+        file_path = request.POST.getlist('file_path', "")[0]
+        file_md5 = request.POST.getlist('file_md5', "")[0]
+        file_size = request.POST.getlist('file_size', "")[0]
+        file_content_type = request.POST.getlist('file_content_type', "")[0]
+        custom_path = request.POST.getlist('custom_path', "")
         ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD') or request.META.get('REMOTE_ADDR')
 
         # 是否设置当前需要存储以时间戳为名称的目录
@@ -38,8 +38,8 @@ def upload(request):
             if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
             absolute_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)
         else:
-            if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path))
-            absolute_path = os.path.join(UPLOAD_FILE_PATH, custom_path, time_path)
+            if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, "/".join(custom_path), time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, "/".join(custom_path), time_path))
+            absolute_path = os.path.join(UPLOAD_FILE_PATH, "/".join(custom_path), time_path)
 
         # 定义新的文件路径
         new_file_name = file_md5 + "_" + file_name
@@ -51,7 +51,7 @@ def upload(request):
         shutil.copyfile(old_file_path, new_file_path)
 
         # 指定文件可被访问的 Url
-        account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
+        account_url = os.path.join(absolute_path, new_file_name)
 
         # 是否删除 Nginx 源文件
         if REMOVE_SOURCE_FILE_SETUP: os.remove(file_path)
