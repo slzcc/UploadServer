@@ -7,31 +7,41 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # Global Environment Variable
+## Storage Root Directory (/..)
 UPLOAD_FILE_PATH = os.getenv('UPLOAD_FILE_PATH')
+## Nginx Mirror Http Address (http://localhost/)
 NGINX_MIRROR_URL = os.getenv('NGINX_MIRROR_URL')
+## Store the Default Path ($NGINX_MIRROR_URL/$NGINX_MIRROR_STORAGE_PATH)
 NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')
+## Whether or Not to Delete in Nginx Upload (/tmp/nginx_upload/..)
 REMOVE_SOURCE_FILE_SETUP = os.getenv('REMOVE_SOURCE_FILE_SETUP')
+## Whether to Add the Time Directory (../../2018-07-31/..)
+USE_TIEM_SUB_DIRECTORY = os.getenv('USE_TIEM_SUB_DIRECTORY')
+
 
 @csrf_exempt
 def upload(request):
     try:
-        request_params = request.POST
-        file_name = request_params['file_name']
-        file_path = request_params['file_path']
-        file_md5 = request_params['file_md5']
-        file_size = request_params['file_size']
-        file_content_type = request_params['file_content_type']
+        file_name = request.POST.get('file_name', None)
+        file_path = request.POST.get('file_path', None)
+        file_md5 = request.POST.get('file_md5', None)
+        file_size = request.POST.get('file_size', None)
+        file_content_type = request.POST.get('file_content_type', None)
+        custom_path = request.POST.get('custom_path', None)
         ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD') or request.META.get('REMOTE_ADDR')
 
-        # 设置当前需要存储，以时间戳为名称的目录
-        time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time()))
-
-        # 如果时间目录，不存在则创建目录
-        if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
+        # 是否设置当前需要存储以时间戳为名称的目录
+        time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time())) if USE_TIEM_SUB_DIRECTORY else time_path = ""
+            
+        # 判断存储目录是否存在，如果不存在则创建目录
+        if custom_path:
+            if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
+        else:
+            if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, custom_path, time_path))
 
         # 定义新的文件路径
         new_file_name = file_md5 + "_" + file_name
-        new_file_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
+        new_file_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name) if custom_path else os.path.join(UPLOAD_FILE_PATH, custom_path, time_path, new_file_name)
         old_file_name = file_name
         old_file_path = os.path.join(file_path)
 
@@ -42,9 +52,9 @@ def upload(request):
         account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
 
         # 是否删除 Nginx 源文件
-        if REMOVE_SOURCE_FILE_SETUP:
-            os.remove(file_path)
+        if REMOVE_SOURCE_FILE_SETUP: os.remove(file_path)
 
+        # 返回值
         ret = {
             'name': new_file_name,
             'path': new_file_path,
@@ -56,11 +66,10 @@ def upload(request):
             'status': "success",
             'status_code': "200",
         }
-        return JsonResponse(ret)
     except:
         ret = {
             'status': "failed",
             'status_code': "503",
             'describe': "The uploaded file format or required parameters are not correct, please try.",
         }
-        return JsonResponse(ret)
+    return JsonResponse(ret)
