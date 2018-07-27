@@ -22,12 +22,12 @@ USE_TIEM_SUB_DIRECTORY = os.getenv('USE_TIEM_SUB_DIRECTORY')
 @csrf_exempt
 def upload(request):
     try:
-        file_name = request.POST.get('file_name', None)
-        file_path = request.POST.get('file_path', None)
-        file_md5 = request.POST.get('file_md5', None)
-        file_size = request.POST.get('file_size', None)
-        file_content_type = request.POST.get('file_content_type', None)
-        custom_path = request.POST.get('custom_path', None)
+        file_name = request.POST.get('file_name', "")
+        file_path = request.POST.get('file_path', "")
+        file_md5 = request.POST.get('file_md5', "")
+        file_size = request.POST.get('file_size', "")
+        file_content_type = request.POST.get('file_content_type', "")
+        custom_path = request.POST.get('custom_path', "")
         ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD') or request.META.get('REMOTE_ADDR')
 
         # 是否设置当前需要存储以时间戳为名称的目录
