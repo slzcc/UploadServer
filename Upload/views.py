@@ -31,7 +31,7 @@ def upload(request):
         ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD') or request.META.get('REMOTE_ADDR')
 
         # 是否设置当前需要存储以时间戳为名称的目录
-        time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time())) if USE_TIEM_SUB_DIRECTORY else time_path = ""
+        time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time())) if USE_TIEM_SUB_DIRECTORY else ""
             
         # 判断存储目录是否存在，如果不存在则创建目录
         if custom_path:
