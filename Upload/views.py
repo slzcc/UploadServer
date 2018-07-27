@@ -34,7 +34,7 @@ def upload(request):
         time_path = time.strftime("%Y-%m-%d", time.gmtime(time.time())) if USE_TIEM_SUB_DIRECTORY else ""
             
         # 判断存储目录是否存在，如果不存在则创建目录
-        if custom_path:
+        if not custom_path:
             if not os.path.exists(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)): os.makedirs(os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path))
             absolute_path = os.path.join(UPLOAD_FILE_PATH, NGINX_MIRROR_STORAGE_PATH, time_path)
         else:
