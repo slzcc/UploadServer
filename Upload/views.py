@@ -43,7 +43,10 @@ def upload(request):
             absolute_path = os.path.join(UPLOAD_FILE_PATH, "/".join(custom_path), time_path)
 
         # 定义新的文件路径
-        new_file_name = file_md5 + "_" + file_name
+        if USER_MD5_PREFIX:
+            new_file_name = file_md5 + "_" + file_name
+        else:
+            new_file_name = file_name
         new_file_path = os.path.join(absolute_path, new_file_name)
         old_file_name = file_name
         old_file_path = os.path.join(file_path)
