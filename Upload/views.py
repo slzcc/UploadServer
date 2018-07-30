@@ -14,9 +14,9 @@ NGINX_MIRROR_URL = os.getenv('NGINX_MIRROR_URL')
 ## Store the Default Path ($NGINX_MIRROR_URL/$NGINX_MIRROR_STORAGE_PATH)
 NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')
 ## Whether or Not to Delete in Nginx Upload (/tmp/nginx_upload/..)
-REMOVE_SOURCE_FILE_SETUP = bool(os.getenv('REMOVE_SOURCE_FILE_SETUP'))
+REMOVE_SOURCE_FILE_SETUP = True if os.getenv('REMOVE_SOURCE_FILE_SETUP') == "True" else False
 ## Whether to Add the Time Directory (../../2018-07-31/..)
-USE_TIEM_SUB_DIRECTORY = bool(os.getenv('USE_TIEM_SUB_DIRECTORY'))
+USE_TIEM_SUB_DIRECTORY = True if os.getenv('USE_TIEM_SUB_DIRECTORY') == "True" else False
 
 
 @csrf_exempt
