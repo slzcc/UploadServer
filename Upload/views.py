@@ -17,7 +17,8 @@ NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')
 REMOVE_SOURCE_FILE_SETUP = True if os.getenv('REMOVE_SOURCE_FILE_SETUP') == "True" else False
 ## Whether to Add the Time Directory (../../2018-07-31/..)
 USE_TIEM_SUB_DIRECTORY = True if os.getenv('USE_TIEM_SUB_DIRECTORY') == "True" else False
-
+## Whether to use the MD5 prefix filename
+USER_MD5_PREFIX = True if os.getenv('USER_MD5_PREFIX') == "True" else False
 
 @csrf_exempt
 def upload(request):

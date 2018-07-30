@@ -7,7 +7,8 @@ ENV UPLOAD_FILE_PATH="/storage/" \
     NGINX_MIRROR_URL="http://localhost/" \
     NGINX_MIRROR_STORAGE_PATH="firmware/resume" \
     REMOVE_SOURCE_FILE_SETUP=False \
-    USE_TIEM_SUB_DIRECTORY=True
+    USE_TIEM_SUB_DIRECTORY=True \
+    USER_MD5_PREFIX=False
 
 EXPOSE 8878 8877
 CMD uwsgi --socket 0.0.0.0:8877 \
