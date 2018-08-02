@@ -1,0 +1,32 @@
+version: '3'
+services:
+    upload_backend:
+        image: slzcc/django:upload-uwsgi-v4
+        ports:
+          - 8878:8878
+        environment:
+          - UPLOAD_FILE_PATH=/storage/
+          - NGINX_MIRROR_URL=http://172.17.145.245/
+          - NGINX_MIRROR_STORAGE_PATH=firmware/resume
+          - REMOVE_SOURCE_FILE_SETUP=False
+          - USE_TIEM_SUB_DIRECTORY=True
+ 
+        volumes:
+          - nginx-upload:/tmp/nginx_upload
+          - mirror:/storage
+ 
+    upload_frontend:
+        image: slzcc/nginx:upload-conf-v3
+        ports:
+          - 80:80
+        environment:
+          - UPLOAD_BACKEND_ADDRESS=http://172.17.145.245:8878
+          - NGINX_MIRROR_HOME=/mirror
+ 
+        volumes:
+          - nginx-upload:/tmp/nginx_upload
+          - mirror:/mirror
+ 
+volumes:
+    nginx-upload:
+    mirror:
