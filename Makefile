@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION := "4"
+VERSION := "5"
 build:
 	@docker build -t slzcc/django:upload-uwsgi-v$(VERSION) . --no-cache
 push:
