@@ -14,7 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, re_path
-from Upload.views import upload
+from Upload.views import upload, delete
+
 urlpatterns = [
     re_path('^upload$', upload, name="service-upload-files"),
+    re_path('^delete$', delete, name="service-delete-files"),
 ]

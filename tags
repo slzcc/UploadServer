@@ -1,0 +1,61 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ALLOWED_HOSTS	UploadInterface/settings.py	/^ALLOWED_HOSTS = ['*']$/;"	kind:v	line:28
+APPEND_SLASH	UploadInterface/settings.py	/^APPEND_SLASH = False$/;"	kind:v	line:117
+AUTH_PASSWORD_VALIDATORS	UploadInterface/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:v	line:88
+AppConfig	Upload/apps.py	/^from django.apps import AppConfig$/;"	kind:i	line:1
+BASE_DIR	UploadInterface/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:v	line:16
+DEBUG	UploadInterface/settings.py	/^DEBUG = False$/;"	kind:v	line:26
+HttpResponse	Upload/views.py	/^from django.http import HttpResponse, JsonResponse$/;"	kind:i	line:6
+INSTALLED_APPS	UploadInterface/settings.py	/^INSTALLED_APPS = [$/;"	kind:v	line:33
+JsonResponse	Upload/views.py	/^from django.http import HttpResponse, JsonResponse$/;"	kind:i	line:6
+LANGUAGE_CODE	UploadInterface/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:v	line:107
+MIDDLEWARE	UploadInterface/settings.py	/^MIDDLEWARE = [$/;"	kind:v	line:43
+NGINX_MIRROR_STORAGE_PATH	Upload/views.py	/^NGINX_MIRROR_STORAGE_PATH = os.getenv('NGINX_MIRROR_STORAGE_PATH')$/;"	kind:v	line:15
+NGINX_MIRROR_URL	Upload/views.py	/^NGINX_MIRROR_URL = os.getenv('NGINX_MIRROR_URL')$/;"	kind:v	line:13
+REMOVE_SOURCE_FILE_SETUP	Upload/views.py	/^REMOVE_SOURCE_FILE_SETUP = True if os.getenv('REMOVE_SOURCE_FILE_SETUP') == "True" else False$/;"	kind:v	line:17
+ROOT_URLCONF	UploadInterface/settings.py	/^ROOT_URLCONF = 'UploadInterface.urls'$/;"	kind:v	line:53
+SHELL	Makefile	/^SHELL := \/bin\/bash$/;"	kind:m	line:1
+STATIC_URL	UploadInterface/settings.py	/^STATIC_URL = '\/static\/'$/;"	kind:v	line:122
+TEMPLATES	UploadInterface/settings.py	/^TEMPLATES = [$/;"	kind:v	line:55
+TIME_ZONE	UploadInterface/settings.py	/^TIME_ZONE = 'Asia\/Shanghai'$/;"	kind:v	line:109
+TestCase	Upload/tests.py	/^from django.test import TestCase$/;"	kind:i	line:1
+UPLOAD_FILE_PATH	Upload/views.py	/^UPLOAD_FILE_PATH = os.getenv('UPLOAD_FILE_PATH')$/;"	kind:v	line:11
+USER_MD5_PREFIX	Upload/views.py	/^USER_MD5_PREFIX = True if os.getenv('USER_MD5_PREFIX') == "True" else False$/;"	kind:v	line:21
+USE_I18N	UploadInterface/settings.py	/^USE_I18N = True$/;"	kind:v	line:111
+USE_L10N	UploadInterface/settings.py	/^USE_L10N = True$/;"	kind:v	line:113
+USE_TIEM_SUB_DIRECTORY	Upload/views.py	/^USE_TIEM_SUB_DIRECTORY = True if os.getenv('USE_TIEM_SUB_DIRECTORY') == "True" else False$/;"	kind:v	line:19
+USE_TZ	UploadInterface/settings.py	/^USE_TZ = False$/;"	kind:v	line:115
+UploadConfig	Upload/apps.py	/^class UploadConfig(AppConfig):$/;"	kind:c	line:4	inherits:AppConfig
+VERSION	Makefile	/^VERSION := "5"$/;"	kind:m	line:2
+WSGI_APPLICATION	UploadInterface/settings.py	/^WSGI_APPLICATION = 'UploadInterface.wsgi.application'$/;"	kind:v	line:71
+admin	Upload/admin.py	/^from django.contrib import admin$/;"	kind:i	line:1
+application	UploadInterface/wsgi.py	/^application = get_wsgi_application()$/;"	kind:v	line:16
+csrf_exempt	Upload/views.py	/^from django.views.decorators.csrf import csrf_exempt$/;"	kind:i	line:7
+data	ClientUpload.py	/^data = {"custom_path": "demo\/123"}$/;"	kind:v	line:10
+execute_from_command_line	manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:i	line:8
+files	ClientUpload.py	/^files = {"file1": ("resume.html", open(source_file_path, 'rb'), "multipart\/form-data")}$/;"	kind:v	line:8
+get_wsgi_application	UploadInterface/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:i	line:12
+json	Upload/views.py	/^import json$/;"	kind:i	line:3
+models	Upload/models.py	/^from django.db import models$/;"	kind:i	line:1
+name	Upload/apps.py	/^    name = 'Upload'$/;"	kind:v	line:5	class:UploadConfig
+os	Upload/views.py	/^import os$/;"	kind:i	line:2
+os	UploadInterface/settings.py	/^import os$/;"	kind:i	line:13
+os	UploadInterface/wsgi.py	/^import os$/;"	kind:i	line:10
+os	manage.py	/^import os$/;"	kind:i	line:2
+path	UploadInterface/urls.py	/^from django.urls import path, re_path$/;"	kind:i	line:16
+re_path	UploadInterface/urls.py	/^from django.urls import path, re_path$/;"	kind:i	line:16
+requests	ClientUpload.py	/^import requests$/;"	kind:i	line:2
+session	ClientUpload.py	/^session = requests.post(url, data=data, files=files)$/;"	kind:v	line:11
+shutil	Upload/views.py	/^import shutil$/;"	kind:i	line:5
+source_file_path	ClientUpload.py	/^source_file_path = "\/Users\/shilei\/Desktop\/jianli\/html\/resume.html"$/;"	kind:v	line:4
+sys	manage.py	/^import sys$/;"	kind:i	line:3
+time	Upload/views.py	/^import time$/;"	kind:i	line:4
+upload	Upload/views.py	/^def upload(request):$/;"	kind:f	line:24	access:public
+upload	UploadInterface/urls.py	/^from Upload.views import upload$/;"	kind:i	line:17
+url	ClientUpload.py	/^url="http:\/\/47.95.219.151\/upload"$/;"	kind:v	line:6
+urlpatterns	UploadInterface/urls.py	/^urlpatterns = [$/;"	kind:v	line:18

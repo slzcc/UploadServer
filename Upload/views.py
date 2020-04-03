@@ -47,11 +47,13 @@ def upload(request):
             new_file_name = file_md5 + "_" + file_name
         else:
             new_file_name = file_name
+
         new_file_path = os.path.join(absolute_path, new_file_name)
         old_file_name = file_name
         old_file_path = os.path.join(file_path)
 
         # 把 Nginx 存储的文件 Copy 到指定目录内，例：time_path/MD5_file_path
+        if os.path.isfile(new_file_path): os.remove('new_file_path')
         shutil.copyfile(old_file_path, new_file_path)
 
         # 指定文件可被访问的 Url
@@ -60,7 +62,6 @@ def upload(request):
             account_url = os.path.join(NGINX_MIRROR_URL, NGINX_MIRROR_STORAGE_PATH, time_path, new_file_name)
         else:
             account_url = os.path.join(NGINX_MIRROR_URL, "/".join(custom_path), time_path, new_file_name)
-
 
         # 是否删除 Nginx 源文件
         if REMOVE_SOURCE_FILE_SETUP: os.remove(file_path)
@@ -82,5 +83,52 @@ def upload(request):
             'status': "failed",
             'status_code': "503",
             'describe': "The uploaded file format or required parameters are not correct, please try.",
+            'example': "curl --form 'file=@YouFiles' http://127.0.0.1/_upload"
         }
     return JsonResponse(ret)
+
+@csrf_exempt
+def delete(request):
+    
+    ret = {
+        'status': "failed",
+        'status_code': "503",
+        'describe': "Pass in the correct values 'file_name' and 'file_path'.",
+        'example': "curl -H 'Content-Type: application/json' -XPOST 127.0.0.1/delete -d '{ \"file_name\": \"you_filename\", \"file_path\": \"/path/to\"}'"
+    }
+
+    try:
+        data = json.loads(request.body)
+    except:
+        return JsonResponse(ret)
+
+    if not 'file_name' in data.keys() and not 'file_name' in data.keys():
+        ret["describe"] = "Pass in the correct values 'file_name' and 'file_path'."
+        return JsonResponse(ret)
+    try:
+        data = json.loads(request.body)
+
+        file_name = data["file_name"]
+        file_path = data["file_path"]
+
+        # 判断文件类型
+        if os.path.isdir(os.path.join(UPLOAD_FILE_PATH, file_path, file_name)):
+            shutil.rmtree(os.path.join(UPLOAD_FILE_PATH, file_path, file_name))
+        elif os.path.isfile(os.path.join(UPLOAD_FILE_PATH, file_path, file_name)):
+            os.remove(os.path.join(UPLOAD_FILE_PATH, file_path, file_name))
+        else:
+            raise Exception('exit')
+
+        # 返回值
+        ret = {
+            'name': file_name,
+            'path': file_path,
+            'status': "success",
+            'is_delete': True
+        }
+
+    except:
+        pass
+        
+    return JsonResponse(ret)
+
