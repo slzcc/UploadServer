@@ -4,7 +4,6 @@ import json
 import time
 import shutil
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Global Environment Variable
 ## Storage Root Directory (/..)
@@ -20,7 +19,6 @@ USE_TIEM_SUB_DIRECTORY = True if os.getenv('USE_TIEM_SUB_DIRECTORY') == "True" e
 ## Whether to use the MD5 prefix filename
 USER_MD5_PREFIX = True if os.getenv('USER_MD5_PREFIX') == "True" else False
 
-@csrf_exempt
 def upload(request):
     try:
         file_name = request.POST.getlist('file_name', "")[0]
@@ -53,7 +51,7 @@ def upload(request):
         old_file_path = os.path.join(file_path)
 
         # 把 Nginx 存储的文件 Copy 到指定目录内，例：time_path/MD5_file_path
-        if os.path.isfile(new_file_path): os.remove('new_file_path')
+        if os.path.isfile(new_file_path): os.remove(new_file_path)
         shutil.copyfile(old_file_path, new_file_path)
 
         # 指定文件可被访问的 Url
@@ -83,30 +81,26 @@ def upload(request):
             'status': "failed",
             'status_code': "503",
             'describe': "The uploaded file format or required parameters are not correct, please try.",
-            'example': "curl --form 'file=@YouFiles' http://127.0.0.1/_upload"
+            'example': "curl --form 'file=@YouFiles' http://127.0.0.1/upload"
         }
     return JsonResponse(ret)
 
-@csrf_exempt
 def delete(request):
     
     ret = {
         'status': "failed",
         'status_code': "503",
-        'describe': "Pass in the correct values 'file_name' and 'file_path'.",
-        'example': "curl -H 'Content-Type: application/json' -XPOST 127.0.0.1/delete -d '{ \"file_name\": \"you_filename\", \"file_path\": \"/path/to\"}'"
+        'example': "curl -H 'Content-Type: application/json' -XDELETE 127.0.0.1/delete -d '{ `file_name`: `you_filename`, `file_path`: `/path/to`}'"
     }
-
     try:
         data = json.loads(request.body)
     except:
         return JsonResponse(ret)
 
-    if not 'file_name' in data.keys() and not 'file_name' in data.keys():
+    if not 'file_name' in data.keys() and not 'file_path' in data.keys():
         ret["describe"] = "Pass in the correct values 'file_name' and 'file_path'."
         return JsonResponse(ret)
     try:
-        data = json.loads(request.body)
 
         file_name = data["file_name"]
         file_path = data["file_path"]
@@ -128,7 +122,9 @@ def delete(request):
         }
 
     except:
-        pass
+        ret["describe"] = "Please check if the file exists."
+        ret["example"] = "curl -XHEAD http://127.0.0.1:8888/path/to/filename -I"
+        return JsonResponse(ret)
         
     return JsonResponse(ret)
 

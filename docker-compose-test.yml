@@ -12,6 +12,7 @@ services:
           - USE_TIEM_SUB_DIRECTORY=True
 
         volumes:
+          - ./:/UploadInterface
           - nginx-upload:/tmp/nginx_upload
           - mirror:/storage
 
