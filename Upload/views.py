@@ -128,3 +128,40 @@ def delete(request):
         
     return JsonResponse(ret)
 
+def remove(request):
+    ret = {
+        'status': "failed",
+        'status_code': "503",
+        'example': "curl -XGET 127.0.0.1/remove?target=xxx/xxx/xxx.txt"
+    }
+
+    try:
+        data = request.GET.get('target')
+    except:
+        return JsonResponse(ret)
+
+    try:
+
+        data = request.GET.get('target')
+
+        # 判断文件类型
+        if os.path.isdir(os.path.join(UPLOAD_FILE_PATH, data)):
+            shutil.rmtree(os.path.join(UPLOAD_FILE_PATH, data))
+        elif os.path.isfile(os.path.join(UPLOAD_FILE_PATH, data)):
+            os.remove(os.path.join(UPLOAD_FILE_PATH, data))
+        else:
+            raise Exception('exit')
+
+        # 返回值
+        ret = {
+            'name': data,
+            'status': "success",
+            'is_remove': True
+        }
+
+    except:
+        ret['describe'] = "Do not have this file with directory, please、"
+        return JsonResponse(ret)
+
+    return JsonResponse(ret)
+

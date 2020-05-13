@@ -69,6 +69,12 @@ server {
         proxy_pass ${UPLOAD_BACKEND_ADDRESS};
  
     }
+
+    location /remove {
+ 
+        proxy_pass ${UPLOAD_BACKEND_ADDRESS};
+ 
+    }
  
     location = /favicon.ico {
         log_not_found off;
@@ -106,8 +112,8 @@ http {
  
     sendfile        on;
     #tcp_nopush     on;
-    client_max_body_size 10240m;
-    keepalive_timeout  300;
+    client_max_body_size 1024000m;
+    keepalive_timeout  18000;
  
     #gzip  on;
  
