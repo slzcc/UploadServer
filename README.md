@@ -49,6 +49,14 @@ $ python3 ClientDelete.py
 {"name": "text.log", "path": "firmware/2020-04-07", "status": "success", "is_delete": true}
 ```
 
+### GET 方式删除
+
+```
+$ curl -XGET 127.0.0.1/remove?target=xxx/xxx/xxx.txt"
+```
+
+> 可以删除文件也可以删除目录.
+
 > `file_name` 和 `file_path` 的参数必须有, 但可以单独配置删除目录还是删除文件, 删除目录时 `file_name` 请留空, 反之.
 
 ## 文件检测
@@ -71,3 +79,5 @@ Access-Control-Allow-Headers: *
 Access-Control-Allow-Methods: GET,POST,OPTIONS,DELETE,HEAD,PUT
 Accept-Ranges: bytes
 ```
+
+
