@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: upload
-        image: slzcc/uploadserver:backend-v1
+        image: slzcc/uploadserver:backend-v2
         ports:
         - name: http
           containerPort: 8878
@@ -51,7 +51,7 @@ spec:
               fieldPath: status.podIP
         imagePullPolicy: IfNotPresent
       - name: nginx
-        image: slzcc/uploadserver:frontend-v1
+        image: slzcc/uploadserver:frontend-v2
         ports:
         - name: http
           containerPort: 80
@@ -60,9 +60,9 @@ spec:
           mountPath: "/tmp/nginx_upload"
         - name: storage-date
           mountPath: "/mirror"
-        - name: index
-          mountPath: "/mirror/_upload/index.html"
-          subPath: index.html
+          #        - name: index
+          #          mountPath: "/mirror/_upload/index.html"
+          #          subPath: index.html
         env:
         - name: TZ
           value: "Asia/Shanghai"

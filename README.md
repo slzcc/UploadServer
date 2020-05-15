@@ -61,7 +61,7 @@ $ curl -XGET 127.0.0.1/remove?target=xxx/xxx/xxx.txt"
 
 ## 文件检测
 
-在删除文件时，清闲确认文件是否存在.
+在删除文件时，请先确认文件是否存在.
 
 ```
 $ curl -XHEAD http://127.0.0.1:8888/firmware/2020-04-07/text.log -I
@@ -79,5 +79,3 @@ Access-Control-Allow-Headers: *
 Access-Control-Allow-Methods: GET,POST,OPTIONS,DELETE,HEAD,PUT
 Accept-Ranges: bytes
 ```
-
-
