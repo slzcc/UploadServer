@@ -141,6 +141,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: upload-service
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "1024000m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "18000"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "18000"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "18000"
 spec:
   rules:
   - host: upload.ops.shileizcc.com
