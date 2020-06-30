@@ -61,6 +61,8 @@ server {
     location @upload_backend {
  
         proxy_pass ${UPLOAD_BACKEND_ADDRESS};
+        proxy_read_timeout 18000s;
+        proxy_send_timeout 18000s;
  
     }
 
@@ -114,6 +116,8 @@ http {
     #tcp_nopush     on;
     client_max_body_size 1024000m;
     keepalive_timeout  18000;
+    client_body_timeout 18000;
+    client_header_timeout 18000;
  
     #gzip  on;
  

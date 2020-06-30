@@ -22,6 +22,8 @@ CMD uwsgi --socket 0.0.0.0:8877 \
       --vacuum \
       --thunder-lock \
       --enable-threads \
-      --harakiri 30 \
+      --http-timeout 18000 \
+      --harakiri 18000 \
       --post-buffering 4096 \
+      --max-requests 10000 \
       --file "/UploadInterface/UploadInterface/wsgi.py"

@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION := "2"
+VERSION := "4"
 build:
 	@docker build -t slzcc/uploadserver:frontend-v$(VERSION) . --no-cache
 push:

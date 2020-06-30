@@ -1,7 +1,7 @@
 version: '3'
 services:
     upload_backend:
-        image: slzcc/uploadserver:backend-v1
+        image: slzcc/uploadserver:backend-v2
         ports:
           - 8878:8878
         environment:
@@ -16,7 +16,7 @@ services:
           - mirror:/storage
 
     upload_frontend:
-        image: slzcc/uploadserver:frontend-v1
+        image: slzcc/uploadserver:frontend-v3
         ports:
           - 8888:80
         environment:
